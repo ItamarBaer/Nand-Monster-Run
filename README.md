@@ -8,6 +8,8 @@ Monster Run is a simple yet engaging game where you play as a monster running th
 - [Usage](#usage)
 - [Screenshots](#screenshots)
 - [Files](#files)
+- [Credits](#Credits)
+
 
 
 ## Game Description
@@ -44,3 +46,6 @@ Here are some screenshots from the game:
 - `vm_files/`: Contains the compiled VM code.
 - `sprites/`: Contains PNG images of the game sprites.
 - `screenshots/`: Contains screenshots of the game.
+
+## Credits
+- The game was created by Tamir Perry and Itamar Baer as part of the Nand2Tetris course.
