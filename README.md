@@ -40,7 +40,7 @@ Here are some screenshots from the game:
 ![Screenshot 3](./screenshots/game_screen2.png)
 
 ## Files
-- `JackFiles/`: Contains the Jack source code for the game.
-- `VMFiles/`: Contains the compiled VM code.
+- `jack_files/`: Contains the Jack source code for the game.
+- `vm_files/`: Contains the compiled VM code.
 - `sprites/`: Contains PNG images of the game sprites.
 - `screenshots/`: Contains screenshots of the game.
