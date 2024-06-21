@@ -1,0 +1,233 @@
+function Monster.new 0
+push constant 6
+call Memory.alloc 1
+pop pointer 0
+push constant 32
+pop this 0
+push constant 48
+pop this 2
+push constant 32
+pop this 3
+push constant 184
+pop this 1
+push constant 0
+not
+pop this 4
+push constant 0
+not
+pop this 5
+push pointer 0
+call Monster.draw 1
+pop temp 0
+push pointer 0
+return
+function Monster.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Monster.erase 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Monster.getTop 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Monster.getBot 0
+push argument 0
+pop pointer 0
+push this 1
+push this 2
+add
+return
+function Monster.getRight 0
+push argument 0
+pop pointer 0
+push this 0
+push this 3
+add
+return
+function Monster.draw 0
+push argument 0
+pop pointer 0
+push this 5
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 4
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 0
+push constant 16
+call Math.divide 2
+push this 1
+push constant 32
+call Math.multiply 2
+add
+call Sprites.drawMonsterStand1 1
+pop temp 0
+label IF_FALSE1
+push this 4
+not
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 0
+push constant 16
+call Math.divide 2
+push this 1
+push constant 32
+call Math.multiply 2
+add
+call Sprites.drawMonsterStand2 1
+pop temp 0
+label IF_FALSE2
+label IF_FALSE0
+push this 5
+not
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 4
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 0
+push constant 16
+call Math.divide 2
+push this 1
+push constant 32
+call Math.multiply 2
+add
+call Sprites.drawMonsterDuck1 1
+pop temp 0
+label IF_FALSE4
+push this 4
+not
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 0
+push constant 16
+call Math.divide 2
+push this 1
+push constant 32
+call Math.multiply 2
+add
+call Sprites.drawMonsterDuck2 1
+pop temp 0
+label IF_FALSE5
+label IF_FALSE3
+push this 4
+not
+pop this 4
+push constant 0
+return
+function Monster.erase 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push this 0
+push this 3
+add
+push this 1
+push this 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Monster.duck 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Monster.erase 1
+pop temp 0
+push constant 200
+pop this 1
+push constant 32
+pop this 2
+push constant 48
+pop this 3
+push constant 0
+pop this 5
+push pointer 0
+call Monster.draw 1
+pop temp 0
+push constant 0
+return
+function Monster.standUp 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Monster.erase 1
+pop temp 0
+push constant 184
+pop this 1
+push constant 48
+pop this 2
+push constant 32
+pop this 3
+push constant 0
+not
+pop this 5
+push pointer 0
+call Monster.draw 1
+pop temp 0
+push constant 0
+return
+function Monster.moveUp 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 1
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Monster.erase 1
+pop temp 0
+push this 1
+push constant 1
+sub
+pop this 1
+push pointer 0
+call Monster.draw 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Monster.moveDown 0
+push argument 0
+pop pointer 0
+push this 1
+push this 2
+add
+push constant 254
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Monster.erase 1
+pop temp 0
+push this 1
+push constant 1
+add
+pop this 1
+push pointer 0
+call Monster.draw 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return

@@ -1,0 +1,9 @@
+/*
+    Small library for the modulo function.
+    used to create pseudo random functions.
+*/
+class Modulo{
+    function int modulo(int a, int b){
+        return (a - (b*(a/b)));
+    } 
+}

@@ -1,0 +1,365 @@
+function Obstacle.newTower 0
+push constant 5
+call Memory.alloc 1
+pop pointer 0
+push static 0
+push constant 1
+add
+pop static 0
+push constant 16
+pop this 3
+push constant 32
+pop this 2
+push constant 0
+not
+pop this 4
+push constant 490
+pop this 0
+push constant 200
+pop this 1
+push pointer 0
+call Obstacle.draw 1
+pop temp 0
+push pointer 0
+return
+function Obstacle.newAirplane 0
+push constant 5
+call Memory.alloc 1
+pop pointer 0
+push static 0
+push constant 1
+add
+pop static 0
+push constant 32
+pop this 3
+push argument 0
+push constant 6
+sub
+pop this 2
+push constant 0
+pop this 4
+push constant 470
+pop this 0
+push argument 0
+pop this 1
+push pointer 0
+call Obstacle.draw 1
+pop temp 0
+push pointer 0
+return
+function Obstacle.getObstCounter 0
+push argument 0
+pop pointer 0
+push static 0
+return
+function Obstacle.resetObstCounter 0
+push argument 0
+pop pointer 0
+push constant 0
+pop static 0
+push constant 0
+return
+function Obstacle.getTop 0
+push argument 0
+pop pointer 0
+push this 4
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 1
+return
+label IF_FALSE0
+push this 1
+push constant 6
+sub
+return
+function Obstacle.getBot 0
+push argument 0
+pop pointer 0
+push this 4
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 1
+push constant 32
+add
+return
+label IF_FALSE0
+push this 1
+push constant 8
+add
+return
+function Obstacle.getLeft 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Obstacle.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Obstacle.erase 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Obstacle.draw 0
+push argument 0
+pop pointer 0
+push this 4
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Obstacle.drawTower 1
+pop temp 0
+label IF_FALSE0
+push this 4
+not
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push pointer 0
+call Obstacle.drawAirplane 1
+pop temp 0
+label IF_FALSE1
+push constant 0
+return
+function Obstacle.drawAirplane 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push this 0
+push constant 32
+add
+push this 1
+push constant 8
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 28
+add
+push this 1
+push constant 6
+sub
+push this 0
+push constant 32
+add
+push this 1
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 2
+add
+push this 1
+push constant 1
+add
+push this 0
+push constant 5
+add
+push this 1
+push constant 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Obstacle.drawTower 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push this 0
+push constant 16
+add
+push this 1
+push constant 32
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 2
+add
+push this 1
+push constant 1
+add
+push this 0
+push constant 7
+add
+push this 1
+push constant 6
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 9
+add
+push this 1
+push constant 1
+add
+push this 0
+push constant 14
+add
+push this 1
+push constant 6
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 2
+add
+push this 1
+push constant 8
+add
+push this 0
+push constant 7
+add
+push this 1
+push constant 13
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 9
+add
+push this 1
+push constant 8
+add
+push this 0
+push constant 14
+add
+push this 1
+push constant 13
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 2
+add
+push this 1
+push constant 15
+add
+push this 0
+push constant 7
+add
+push this 1
+push constant 20
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push constant 9
+add
+push this 1
+push constant 15
+add
+push this 0
+push constant 14
+add
+push this 1
+push constant 20
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Obstacle.erase 0
+push argument 0
+pop pointer 0
+push this 4
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Obstacle.eraseTower 1
+pop temp 0
+label IF_FALSE0
+push this 4
+not
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push pointer 0
+call Obstacle.eraseAirplane 1
+pop temp 0
+label IF_FALSE1
+push constant 0
+return
+function Obstacle.eraseTower 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push this 0
+push constant 16
+add
+push this 1
+push constant 32
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Obstacle.eraseAirplane 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push constant 6
+sub
+push this 0
+push constant 32
+add
+push this 1
+push constant 8
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Obstacle.move 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 11
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Obstacle.erase 1
+pop temp 0
+push this 0
+push constant 11
+sub
+pop this 0
+push pointer 0
+call Obstacle.draw 1
+pop temp 0
+label IF_FALSE0
+push this 0
+return

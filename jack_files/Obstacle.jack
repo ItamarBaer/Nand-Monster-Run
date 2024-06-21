@@ -1,0 +1,134 @@
+/*
+    obstacle logic
+*/
+class Obstacle{
+    
+    field int x,y,height,width; //keeps it's location data
+    field boolean type; // true is tower, flase is airplane
+
+    static int obstCounter;
+
+    //tower constructor
+    constructor Obstacle newTower () {
+        let obstCounter = obstCounter + 1;
+        let width = 16;
+        let height = 32;
+        let type = true;
+        let x = 490;
+        let y = 200;
+        do draw();
+        return this;
+    }
+
+    //airplane constructor
+    constructor Obstacle newAirplane (int altitude) {
+        let obstCounter = obstCounter + 1;
+        let width = 32;
+        let height = altitude-6;
+        let type = false;
+        let x = 470;
+        let y = altitude;
+        do draw();
+        return this;
+    }
+
+    //obstacle counter getter.
+    method int getObstCounter(){
+        return obstCounter;
+    }
+
+    //resets the obstacle counter.
+    method void resetObstCounter() {
+        let obstCounter = 0;
+        return;
+    }
+
+    //the height of the obstacle getter.
+    method int getTop(){
+        if(type) {
+            return y; // return tower height
+        }
+        return y - 6; //height of airplane
+    }
+
+    //the bottom of the obstacle getter.
+    method int getBot(){
+        if(type){
+            return y + 32;
+        }
+        return y + 8;
+    }
+
+    //the left side of the obstacle getter.
+    method int getLeft(){
+        return x;
+    }
+
+    //clears the used resources.
+    method void dispose() {
+        do erase();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    //drawing the obstacle
+    method void draw() {
+        if(type) { do drawTower(); }
+        if(~type) { do drawAirplane(); }
+        return;
+    }
+
+    //drawing the airplane.
+    method void drawAirplane() { 
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x, y, x + 32, y + 8); //body
+        do Screen.drawRectangle(x + 28, y - 6, x + 32, y); //wing
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x + 2, y + 1, x + 5, y + 4); // window
+        return;
+    }    
+    
+    //drawing the tower.
+    method void drawTower() {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x, y, x+16, y+32); //body
+        do Screen.setColor(false);
+        //windows
+        do Screen.drawRectangle(x + 2, y + 1, x + 7, y + 6);
+        do Screen.drawRectangle(x + 9, y + 1, x + 14, y + 6);
+        do Screen.drawRectangle(x + 2, y + 8, x + 7, y + 13);
+        do Screen.drawRectangle(x + 9, y + 8, x + 14, y + 13);
+        do Screen.drawRectangle(x + 2, y + 15, x + 7, y + 20);
+        do Screen.drawRectangle(x + 9, y + 15, x + 14, y + 20);
+        return;
+    }
+
+    //cleans the obstacle from screen. basicaly drawing a huge white rectangle over each obstacle.
+    method void erase() {
+        if(type) { do eraseTower(); }
+        if(~type) { do eraseAirplane(); }
+        return;
+    }
+
+    method void eraseTower() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x, y, x + 16, y + 32);
+        return;
+    }
+
+    method void eraseAirplane() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x, y - 6, x + 32, y + 8);
+        return;
+    }
+    
+    //moving the obstacle left as long as it has space to move.
+    method int move() {
+        if(x > 11){
+            do erase();
+            let x = x - 11;
+            do draw();
+        }
+        return x;
+    }
+}

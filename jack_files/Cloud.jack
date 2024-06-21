@@ -1,0 +1,50 @@
+/*
+cloud logic
+*/
+class Cloud{    
+    field int x,y; // coordinates of the cloud.
+
+    // cloud constructor
+    constructor Cloud new(int dist, int height){
+        let x = dist;
+        let y = height;
+        do draw();
+        return this;
+    }
+
+    //cloud destructor
+    method void dispose() {
+        do erase();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    //draws a cloud
+    method void draw(){
+        do erase();
+        do Sprites.drawCloudSprite(x + (y*32));
+        return;
+    }
+
+    //erases a cloud
+    method void erase(){
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x*16, y, (x*16) + 32, y + 32);
+        return;
+    }
+
+    //cloud horizontal location getter.
+    method int getX(){
+        return x;
+    }
+
+    //moves the cloud left
+    method void move(){
+        if(x > 1){
+            do erase();
+            let x = x - 1;
+            do draw();
+        }
+        return;
+    }
+}

@@ -1,0 +1,168 @@
+/*
+    The inner logic of the game.
+*/
+class Game {
+    field Monster tiflaz; // Our lovely monster.
+    field Obstacle obst; // Either a plane or a building.
+    field Array clouds;
+    field Cloud cloud;
+    field int counter; // For timing up and down movements.
+    field Array checkpoints; // Reaching those checkpoints increases the speed of the game.
+    
+    static int time; // For pseudo random generations.
+    /*
+        creating instance of game
+    */
+    constructor Game new() {
+        let tiflaz = Monster.new();
+        let obst = Obstacle.newTower();
+        let clouds = Array.new(2);
+        let clouds[0] = Cloud.new(5, 63);
+        let clouds[1] = Cloud.new(15, 115);
+        let counter = 0;
+        let time = 0;
+        let checkpoints = Array.new(5);
+        //Those numbers felt fair and fun for us. They changed a lot during the creating process.
+        let checkpoints[0] = 5; 
+        let checkpoints[1] = 10;
+        let checkpoints[2] = 20;
+        let checkpoints[3] = 30;
+        let checkpoints[4] = 40;
+
+        return this;
+    }
+
+    /*
+        Releasing the resources of the game.
+    */
+    method void dispose() {
+        do obst.resetObstCounter();
+        do tiflaz.dispose();
+        do obst.dispose();
+        do checkpoints.dispose();
+        do clouds.dispose();
+        do Memory.deAlloc(this);
+
+        return;
+    }
+
+    /*
+        Checks if the monster crushed.
+    */
+    method bool checkOverlap() {
+        if((tiflaz.getRight() > (obst.getLeft()-1)) & (tiflaz.getBot() > (obst.getTop()-1)) & ((tiflaz.getTop()-1) < obst.getBot())){
+            return true;
+        }
+        return false;
+    }
+
+    /*
+        The big gun of the program.
+    */
+    method int run() {
+        var char key; //reading input
+        var boolean exit; //ending the game
+        var boolean jumping; //locks other animations while true
+        var boolean goingUp; //for jump logic
+        var boolean ducking; //for ducking logic.
+        var int index;
+
+        let key = 0;        
+        let exit = false;
+        let jumping = false;
+        let goingUp = false;
+        let index = 0;
+        
+        do Output.moveCursor(0,0);
+        do Output.printString("Score: ");
+            
+        while(~exit) { //main loop
+            if((checkpoints[index] = obst.getObstCounter()) & (index < 5)) { //keeping track of the speed checkpoints
+                let index = index + 1;  //Increasing speed.
+            }
+
+            //printing current score
+            do Output.moveCursor(0,7); 
+            do Output.printInt(obst.getObstCounter() - 1);
+            
+            //moving the obstacle every few refreshes.
+            if (Modulo.modulo(time,8) = 0){
+                do obst.move();
+                //if the obstacle reached the end of the screen, we'll reset it
+                if (obst.getLeft() < 11){
+                    do obst.dispose();
+                    //using the inner timer and the modulo function to create a pseudo random function.
+                    //choosing random obstacle and random height for the planes
+                    if (Modulo.modulo(time, 29) < 15) { //We used Itamar's favorite prime number for this! 
+                        let obst = Obstacle.newAirplane(180 + Modulo.modulo(time, 47)); /*A prime number close to 48,
+                        to force the monster to take action */
+                    }
+                    if (Modulo.modulo(time, 29) >14) {
+                        let obst = Obstacle.newTower();
+                    }
+                }
+            }
+
+            if(Modulo.modulo(time, 37) = 0){
+                let cloud = clouds[0];
+                do cloud.move();
+                if(cloud.getX() < 2){
+                    do cloud.dispose();
+                    let cloud = Cloud.new(29, 63);
+                }
+                let clouds[0] = cloud;
+            }
+
+            if(Modulo.modulo(time, 26) = 0){
+                let cloud = clouds[1];
+                do cloud.move();
+                if(cloud.getX() < 2){
+                    do cloud.dispose();
+                    let cloud = Cloud.new(29, 115);
+                }
+                let clouds[1] = cloud;
+            }
+
+            do Sys.wait(5 - index); //refresh rate
+            
+            let key = Keyboard.keyPressed();       
+            if (key = 81)  { return -1;}     // q key
+            if (counter = 0) {
+                let jumping = false;
+                let goingUp = false;
+                }
+            if((key = 131) & (~jumping) ) { //up arroy key - time to jump
+                do tiflaz.standUp();
+                let jumping = true;
+                let goingUp = true;
+            }
+
+            if ((key = 133) & (~jumping) ) { //down arrow
+                do tiflaz.duck();
+            }
+
+            if (~(key = 133) & (~jumping)) { //relesing down arrow
+                do tiflaz.standUp();
+            } 
+
+            if (counter = 80) { //went high enough
+                let goingUp = false;
+            }
+
+            if ((jumping) & (goingUp)) {
+                do tiflaz.moveUp();
+                let counter = counter +1; 
+            }
+
+            if ((jumping) & (~goingUp)){
+                do tiflaz.moveDown();
+                let counter = counter -1 ;
+            }
+
+            if(checkOverlap()) { let exit = true; } //collision check.
+
+            let time = time +1;
+        }
+        return obst.getObstCounter() - 1; // The score is the amount of abstacles passed.
+    }
+}

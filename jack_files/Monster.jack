@@ -1,0 +1,119 @@
+/*
+    The monster logic.
+*/
+class Monster {
+field int x,y; // location of monster's top left corner
+field int height, width;
+field boolean frame, stand;
+
+
+//Constructor.
+constructor Monster new () {
+    let x = 32;
+    let height = 48;
+    let width = 32;
+    let y = 184;
+    let frame = true; // determines which frame of the walk the monster is in
+    let stand = true; 
+    do draw();
+    return this;
+    // draw the monster
+}
+
+//Distructor.
+method void dispose() {
+    do erase();
+    do Memory.deAlloc(this);
+    return;
+}
+
+//The top of the monster.
+method int getTop() {
+    return y;
+}
+
+//The bottom of the monster.
+method int getBot() {
+    return y+height;
+}
+
+//The right side of the monster.
+method int getRight() {
+    return x+width;
+}
+
+//Prints the monster to the screen.
+method void draw() {
+    if(stand){
+        if(frame){
+            do Sprites.drawMonsterStand1((x/16) + (y*32));
+        }
+        if(~frame){
+            do Sprites.drawMonsterStand2((x/16) + (y*32));
+        }
+    }
+    if(~stand){
+        if(frame){
+            do Sprites.drawMonsterDuck1((x/16) + (y*32));
+        }
+        if(~frame){
+            do Sprites.drawMonsterDuck2((x/16) + (y*32));
+        }
+    }
+    let frame = ~frame; // change frame every iteration.
+    return;
+}
+
+
+//Erases the monster from the screen. basically draws a white block on the monster location.
+method void erase() {
+    do Screen.setColor(false);
+    do Screen.drawRectangle(x, y, x + width, y+height);
+    return;
+}
+
+method void duck() {
+    do erase();
+    let y = 200;
+    let height = 32; 
+    let width = 48;
+    let stand = false;
+    do draw();
+    return;
+}
+
+
+method void standUp() {
+    do erase();
+    let y = 184;
+    let height = 48;
+    let width = 32;
+    let stand = true;
+    do draw();
+    return;
+}
+
+//Increases the height of the monster.
+method void moveUp() {
+    if (y>1) {
+        do erase();
+        let y = y-1;
+        do draw();
+    }
+    return;
+}
+
+//Decreases the height of the monster.
+method void moveDown() {
+    if ((y+height) < 254) {
+        do erase();
+        let y = y+1;
+        do draw();
+        }
+    return;
+    }
+
+}
+
+
+

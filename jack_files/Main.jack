@@ -1,0 +1,51 @@
+/*
+  Monster run by Itamar Baer and Tamir Perry.
+  The classic game of a monster running to it's computer in the other side of the city to submit porject 9 of Nand To Tetris! 
+  Help Tiflatz pass the course whilst not destroying the city he loves so much. 
+*/
+class Main {    	
+    function void main() {
+        var int score;
+        var Game game;
+        var Array recentScores;
+        var int counter; // used for placing recent scores
+
+        let score = 0;
+        let counter = 0;
+        let recentScores = Array.new(10);
+        do Sprites.cleanScreen();
+        do Output.moveCursor(11, 20);
+        do Output.printString("welcome to monster run!");
+        do Sprites.drawMonsterOpeningScreen(0);
+        do Sprites.showFlickerMessage("- Press any key to start! -");
+        while(~(score = -1)){ //breaking the loop iff the user pressed q in the game.
+          do Sprites.cleanScreen();
+          let game = Game.new();
+          let score = game.run(); //running the game.
+          //Updating recent scores:
+          do Output.moveCursor(21, 0);
+          do Output.printString("recent scores:");
+          let counter = 0;
+          while(counter < 10) {
+              do Output.moveCursor(22, counter * 4);
+              do Output.printInt(recentScores[counter]);
+              let counter = counter + 1;
+          }
+          while(counter > 0) {
+              let recentScores[counter] = recentScores[counter - 1];
+              let counter = counter - 1;
+          }
+          let recentScores[0] = score;
+
+          do Output.moveCursor(11, 20);
+          if(~(score = -1)){
+            do Output.printString("Game ended, you scored: ");
+            do Output.printInt(score);
+            do Sys.wait(1000); //giving the player time to relese all buttons.
+            do Sprites.showFlickerMessage("- Press any key to restart! -");
+          } 
+          do game.dispose();
+        }
+        return;
+    }
+}
