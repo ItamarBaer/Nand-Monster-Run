@@ -30,7 +30,7 @@ To run the game, you'll need the Nand2Tetris tools installed on your system. Fol
 ## Usage
 1. Run the VM emulator and load the VM files:
     ```sh
-    ./tools/VMEmulator.sh ./vm_files
+    ./tools/VMEmulator.bat ./vm_files
     ```
 3. Start the game and enjoy!
 
