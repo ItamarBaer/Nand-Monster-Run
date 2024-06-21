@@ -23,7 +23,7 @@ To run the game, you'll need the Nand2Tetris tools installed on your system. Fol
     ```
 2. Navigate to the project directory:
     ```sh
-    cd monster-runner
+    cd Nand-Monster-Run
     ```
 3. Ensure you have the VM emulator set up. You can download the necessary tools from the [Nand2Tetris website](https://www.nand2tetris.org/software).
 
